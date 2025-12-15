@@ -328,3 +328,69 @@ footer { margin-top: 100px; border-top: 1px solid #333; padding-top: 30px; font-
 }
 .challenge .cs-title { color: #ff3333; }
 .result .cs-title { color: var(--accent-color); }
+
+/* --- TIMELINE STILE --- */
+.timeline {
+    position: relative;
+    border-left: 2px solid var(--border-color);
+    margin-left: 20px;
+    padding-left: 40px;
+}
+
+.timeline-item {
+    margin-bottom: 50px;
+    position: relative;
+}
+
+/* Il pallino sulla linea */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -46px; /* Aggiusta in base al padding */
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.timeline-date {
+    font-size: 0.85em;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.timeline-content h3 {
+    margin: 0 0 5px 0;
+    color: white;
+    font-size: 1.3em;
+}
+
+.company {
+    display: block;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.timeline-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.timeline-content li {
+    margin-bottom: 8px;
+    color: #ccc;
+    position: relative;
+    padding-left: 20px;
+}
+
+.timeline-content li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+}
