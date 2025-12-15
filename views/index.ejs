@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar Gentilin / Portfolio</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Omar Gentilin</h1>
+            <span class="subtitle">SAP ABAP & Full Stack Engineer //</span>
+            
+            <div style="margin-top: 30px;">
+                <a href="https://github.com/omaar-geent" target="_blank">[GitHub Repos]</a>
+                <a href="https://www.linkedin.com/in/omar-gentilin-36472132b/" target="_blank" style="margin-left: 20px;">[LinkedIn Profile]</a>
+            </div>
+        </header>
+
+        <section>
+            <h2>// Selected Works</h2>
+            <div class="project-list">
+                <% progetti.forEach(function(p) { %>
+                    <a href="/progetto/<%= p.id %>" style="display: block; color: inherit; text-decoration: none;">
+                        <div class="project-item">
+                            <div>
+                                <div class="project-title"><%= p.titolo %></div>
+                                <div style="font-size: 0.9em; color: #888; margin-top: 8px;"><%= p.short_desc %></div>
+                            </div>
+                            <div class="project-tech"><%= p.categoria %></div>
+                        </div>
+                    </a>
+                <% }); %>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>// Initialize Contact</h2>
+            <form action="https://formspree.io/f/mgvgbkqe" method="POST" class="contact-form">
+                <div class="form-row">
+                    <label>Codename (Name)</label>
+                    <input type="text" name="name" required placeholder="_">
+                </div>
+                <div class="form-row">
+                    <label>Frequency (Email)</label>
+                    <input type="email" name="email" required placeholder="_@_._">
+                </div>
+                <div class="form-row">
+                    <label>Payload (Message)</label>
+                    <textarea name="message" rows="5" required placeholder="Start typing..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">TRANSMIT DATA</button>
+            </form>
+        </section>
+
+        <footer>
+            © 2025 OMAR GENTILIN | NODE.JS SYSTEM ONLINE
+        </footer>
+    </div>
+
+    <button class="chat-btn-3d" onclick="toggleChat()">🤖</button>
+
+    <div class="chat-widget" id="chatWindow">
+        <div class="chat-header">
+            <span>OMAR_AI v2.0</span>
+            <span style="cursor:pointer; font-size: 1.2em;" onclick="toggleChat()">×</span>
+        </div>
+        <div class="chat-body" id="chatBox">
+            <div class="msg bot">Ciao! Sono l'assistente digitale. Chiedimi pure cosa sa fare Omar!</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Chiedi..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button onclick="sendChat()">↑</button>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per aprire/chiudere la chat con effetto pop
+        function toggleChat() {
+            const chat = document.getElementById('chatWindow');
+            const btn = document.querySelector('.chat-btn-3d');
+            
+            if (chat.style.display === 'flex') {
+                chat.style.display = 'none';
+                btn.innerHTML = '🤖'; // Torna robot
+            } else {
+                chat.style.display = 'flex';
+                btn.innerHTML = '💬'; // Diventa nuvoletta
+                // Focus automatico sull'input
+                setTimeout(() => document.getElementById('userInput').focus(), 100);
+            }
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('userInput');
+            const box = document.getElementById('chatBox');
+            const text = input.value.trim();
+            if(!text) return;
+
+            box.innerHTML += `<div class="msg user">${text}</div>`;
+            input.value = '';
+            box.scrollTop = box.scrollHeight;
+
+            const loading = document.createElement('div');
+            loading.className = 'msg bot';
+            loading.innerText = '...';
+            box.appendChild(loading);
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: text})
+                });
+                const data = await res.json();
+                loading.innerText = data.reply;
+            } catch(e) {
+                loading.innerText = 'Errore di connessione al cervello.';
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>

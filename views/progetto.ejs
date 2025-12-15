@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= p.titolo %> | Case Study</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <a href="/" style="display: inline-block; margin-bottom: 30px; font-size: 0.9em;">
+            &lt; // RETURN_TO_ROOT
+        </a>
+
+        <div class="project-detail-header">
+            <h1 class="project-detail-title"><%= p.titolo %></h1>
+            <span class="project-detail-cat"><%= p.categoria %></span>
+        </div>
+
+        <div class="project-stats-grid">
+            <div class="stat-item">
+                <strong>Project ID</strong>
+                <span>#00<%= p.id %></span>
+            </div>
+            <div class="stat-item">
+                <strong>Status</strong>
+                <span style="color: var(--accent-color);">COMPLETED</span>
+            </div>
+            <% if(p.link !== "#") { %>
+            <div class="stat-item">
+                <strong>Repository</strong>
+                <a href="<%= p.link %>" target="_blank" style="text-decoration: underline;">View Code ↗</a>
+            </div>
+            <% } %>
+        </div>
+
+        <div class="project-content">
+            <%- p.full_desc %>
+        </div>
+
+        <div class="case-study-box">
+            <div class="cs-card challenge">
+                <div class="cs-title">//! THE CHALLENGE</div>
+                <p style="margin: 0; font-size: 0.95em; color: #ccc;"><%= p.challenge %></p>
+            </div>
+            <div class="cs-card result">
+                <div class="cs-title">>>> THE RESULT</div>
+                <p style="margin: 0; font-size: 0.95em; color: #ccc;"><%= p.result %></p>
+            </div>
+        </div>
+
+        <div class="tech-container">
+            <div style="margin-bottom: 15px; color: #666; font-size: 0.8em; text-transform: uppercase;">System Stack</div>
+            <% p.tecnologie.forEach(function(tech) { %>
+                <span class="tech-badge"><%= tech %></span>
+            <% }); %>
+        </div>
+
+        <footer style="margin-top: 60px; border-top: 1px solid #333; padding-top: 20px; color: #555; font-size: 0.8em;">
+            OMAR GENTILIN // PROJECT DOCUMENTATION END
+        </footer>
+    </div>
+
+</body>
+</html>
