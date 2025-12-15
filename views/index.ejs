@@ -13,10 +13,12 @@
             <h1>Omar Gentilin</h1>
             <span class="subtitle">SAP ABAP Developer & Full Stack Engineer //</span>
             
-            <div style="margin-top: 30px; display: flex; align-items: center; gap: 20px;">
+            <div style="margin-top: 30px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
                 <a href="https://github.com/omaar-geent" target="_blank">[GitHub Repos]</a>
                 <a href="https://www.linkedin.com/in/omar-gentilin-36472132b/" target="_blank">[LinkedIn Profile]</a>
-                <a href="#" class="btn-download" onclick="alert('Curriculum in arrivo...')">Download CV ↓</a>
+                <a href="/docs/Omar_Gentilin_CV.pdf" class="btn-download" target="_blank" download>
+                    Download CV ↓
+                </a>
             </div>
         </header>
 
@@ -55,6 +57,131 @@
             </div>
         </section>
 
+        <section style="margin-top: 80px;">
+            <h2>// ABAP Code Cookbook</h2>
+            <p style="color: #ccc; margin-bottom: 20px;">
+                Snippet di codice ottimizzato per performance su grandi volumi di dati.
+                <br><small>Estratto dalla mia Knowledge Base personale.</small>
+            </p>
+
+            <div class="code-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                
+                <div class="code-card" style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 5px;">
+                    <h3 style="color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0;">
+                        ⚡ Safe FOR ALL ENTRIES
+                    </h3>
+                    <p style="font-size: 0.8em; color: #888;">
+                        Previene l'estrazione dell'intero DB se la tabella driver è vuota e rimuove i duplicati.
+                    </p>
+                    <pre style="background: #000; color: #0f0; padding: 10px; overflow-x: auto; font-size: 0.75em; border-left: 3px solid #0f0;">
+<code>IF lt_keys IS NOT INITIAL.
+  SORT lt_keys BY key_field.
+  DELETE ADJACENT DUPLICATES FROM lt_keys COMPARING key_field.
+
+  SELECT * FROM ztable 
+    INTO TABLE @lt_result
+    FOR ALL ENTRIES IN @lt_keys
+    WHERE key_field = @lt_keys-key_field.
+ENDIF.</code></pre>
+                </div>
+
+                <div class="code-card" style="background: #1e1e1e; border: 1px solid #333; padding: 15px; border-radius: 5px;">
+                    <h3 style="color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0;">
+                        🔍 Binary Search Optimization
+                    </h3>
+                    <p style="font-size: 0.8em; color: #888;">
+                        Riduce la complessità da O(n) a O(log n) per letture veloci in memoria.
+                    </p>
+                    <pre style="background: #000; color: #0f0; padding: 10px; overflow-x: auto; font-size: 0.75em; border-left: 3px solid #0f0;">
+<code>" 1. Ordinamento fondamentale per la Binary Search
+SORT lt_big_table BY key_field.
+
+" 2. Lettura performante
+READ TABLE lt_big_table 
+     INTO DATA(ls_result)
+     WITH KEY key_field = lv_search_value
+     BINARY SEARCH.
+
+IF sy-subrc = 0.
+  " Record trovato
+ENDIF.</code></pre>
+                </div>
+
+            </div>
+        </section>
+<section style="margin-top: 80px;">
+            <h2>// The Integration Lab (Node.js + SAP)</h2>
+            <p style="color: #ccc; margin-bottom: 20px;">
+                Il vero valore aggiunto: usare <strong>Node.js</strong> come strato agile per esporre la complessità di SAP al mondo Web.
+            </p>
+
+            <div class="code-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                
+                <div class="code-card" style="background: #1e1e1e; border: 1px solid #007acc; padding: 15px; border-radius: 5px;">
+                    <h3 style="color: #fff; border-bottom: 1px solid #007acc; padding-bottom: 10px; margin-top: 0;">
+                        🔗 Node.js calling SAP (RFC)
+                    </h3>
+                    <p style="font-size: 0.8em; color: #888;">
+                        Esempio di chiamata asincrona a un Function Module custom usando la libreria <em>node-rfc</em>.
+                    </p>
+                    <pre style="background: #000; color: #61dafb; padding: 10px; overflow-x: auto; font-size: 0.75em; border-left: 3px solid #007acc;">
+<code>const noderfc = require("node-rfc");
+
+// 1. Connessione Non-Blocking al sistema SAP
+const client = new noderfc.Client({
+    dest: "S4H", user: process.env.SAP_USER, passwd: process.env.SAP_PASSWORD
+});
+
+async function getRealTimeStock(matnr) {
+    await client.open();
+    
+    // 2. Chiamata al FM Custom (Z_FM_READ_STOCK)
+    const result = await client.call("Z_FM_READ_STOCK", {
+        I_MATNR: matnr,
+        I_WERKS: "IT01"
+    });
+
+    // 3. Risultato JSON pronto per il Frontend
+    return {
+        material: result.E_MAKTX,
+        stock: result.E_LABST
+    };
+}</code></pre>
+                </div>
+
+                <div class="code-card" style="background: #1e1e1e; border: 1px solid #f0db4f; padding: 15px; border-radius: 5px;">
+                    <h3 style="color: #fff; border-bottom: 1px solid #f0db4f; padding-bottom: 10px; margin-top: 0;">
+                        🚀 Real-Time Streaming (WebSockets)
+                    </h3>
+                    <p style="font-size: 0.8em; color: #888;">
+                        Streaming dei dati SAP verso una dashboard web senza refresh di pagina.
+                    </p>
+                    <pre style="background: #000; color: #f0db4f; padding: 10px; overflow-x: auto; font-size: 0.75em; border-left: 3px solid #f0db4f;">
+<code>const io = require("socket.io")(server);
+
+// Evento: Quando un muletto scansiona un pacco
+io.on("connection", (socket) => {
+    
+    socket.on("scan_barcode", async (data) => {
+        try {
+            // Chiede a SAP i dati del materiale
+            const sapData = await getRealTimeStock(data.code);
+            
+            // Push immediato alla Dashboard del Magazziniere
+            io.emit("dashboard_update", {
+                type: "INBOUND_DELIVERY",
+                payload: sapData,
+                timestamp: new Date()
+            });
+        } catch (err) {
+            console.error("SAP Connection Error", err);
+        }
+    });
+});</code></pre>
+                </div>
+
+            </div>
+        </section>
         <section>
             <h2>// Selected Works</h2>
             <div class="project-list">

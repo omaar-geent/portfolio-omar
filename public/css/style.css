@@ -394,3 +394,15 @@ footer { margin-top: 100px; border-top: 1px solid #333; padding-top: 30px; font-
     left: 0;
     color: var(--accent-color);
 }
+/* Badge Tecnologiche per i dettagli progetto */
+.badge {
+    display: inline-block;
+    background: #333;
+    color: #0f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-right: 5px;
+    border: 1px solid #0f0;
+    font-family: 'Courier New', Courier, monospace;
+}
